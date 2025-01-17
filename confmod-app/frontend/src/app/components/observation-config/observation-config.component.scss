@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.arrow {
+  transition: transform 0.1s ease-in-out;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}

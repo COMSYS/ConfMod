@@ -1,0 +1,224 @@
+{
+  "head": {
+    "observations": {
+      "CAD": {
+        "type": "M",
+        "description": "3D model of the component Dimensions including tolerances and surface quality",
+        "features": [
+          {
+            "label": "3D-Model",
+            "description": "",
+            "data_type": "file",
+            "metadata": [
+              {
+                "label": "Extension",
+                "description": "File extension",
+                "value": ".cad"
+              }
+            ]
+          },
+          {
+            "label": "surface quality",
+            "description": "",
+            "data_type": "float",
+            "metadata": []
+          },
+          {
+            "label": "tolerances",
+            "description": "",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          }
+        ]
+      },
+      "CAM": {
+        "type": "M",
+        "description": "Interface Component -> Production Process",
+        "features": [
+          {
+            "label": "machine_id",
+            "description": "",
+            "data_type": "string",
+            "metadata": []
+          },
+          {
+            "label": "selected tool _id",
+            "description": "",
+            "data_type": "int",
+            "metadata": []
+          },
+          {
+            "label": "calmping device",
+            "description": "",
+            "data_type": "string",
+            "metadata": []
+          },
+          {
+            "label": "NC program",
+            "description": "File containing the NC program",
+            "data_type": "file",
+            "metadata": []
+          }
+        ]
+      },
+      "MACHINEINTERNAL_DATA": {
+        "type": "M",
+        "description": "",
+        "features": [
+          {
+            "label": "timestamp",
+            "data_type": "timestamp"
+          },
+          {
+            "label": "axis_x",
+            "description": "",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          },
+          {
+            "label": "axis_y",
+            "description": "",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          },
+          {
+            "label": "motor_current",
+            "description": "",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mA" }
+            ]
+          },
+          {
+            "label": "rotational_speed",
+            "description": "",
+            "data_type": "float",
+            "metadata": [
+              {
+                "label": "Unit",
+                "description": "Physical Unit",
+                "value": "rpm"
+              }
+            ]
+          }
+        ]
+      },
+      "EXTERNAL_MACHINE_SENSORS": {
+        "type": "M",
+        "description": "",
+        "features": [
+          {
+            "label": "timestamp",
+            "data_type": "timestamp"
+          },
+          {
+            "label": "force measurement",
+            "description": "",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "Nm" }
+            ]
+          }
+        ]
+      },
+      "REFINED_MACHINE_DATA": {
+        "type": "M",
+        "description": "Data that are computed along the machining process",
+        "features": [
+          {
+            "label": "timestamp",
+            "data_type": "timestamp"
+          },
+          {
+            "label": "TCP_x",
+            "description": "tool center point x coordinate",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          },
+          {
+            "label": "TCP_y",
+            "description": "tool center point y coordinate",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          },
+          {
+            "label": "ae",
+            "description": "cutting depth",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          },
+          {
+            "label": "ap",
+            "description": "cutting width",
+            "data_type": "float",
+            "metadata": [
+              { "label": "Unit", "description": "Physical Unit", "value": "mm" }
+            ]
+          },
+          {
+            "label": "fz",
+            "description": "feed of tooth speed",
+            "data_type": "float",
+            "metadata": [
+              {
+                "label": "Unit",
+                "description": "Physical Unit",
+                "value": "mm/tooth"
+              }
+            ]
+          },
+          {
+            "label": "Q",
+            "description": "material removal rate",
+            "data_type": "float",
+            "metadata": [
+              {
+                "label": "Unit",
+                "description": "Physical Unit",
+                "value": "cm^3/min"
+              }
+            ]
+          }
+        ]
+      },
+      "QUALITY": {
+        "type": "M",
+        "description": "Machine internal Quality data",
+        "features": [
+          {
+            "label": "point distribution",
+            "description": "",
+            "data_type": "float",
+            "metadata": []
+          },
+          {
+            "label": "report",
+            "description": "File that contains the quality inspection report",
+            "data_type": "file",
+            "metadata": []
+          }
+        ]
+      }
+    },
+    "metadata": {
+      "company": "Machining Inc",
+      "order_number": "123456789",
+      "material": "-",
+      "location": "-",
+      "sampling_frequency": "-"
+    }
+  },
+  "payload": []
+}

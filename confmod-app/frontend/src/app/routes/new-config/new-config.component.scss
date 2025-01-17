@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+table.table {
+  td, th {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+}
+
+table.table-striped {
+  tr:nth-child(even) {
+    @apply bg-neutral-100;
+  }
+}

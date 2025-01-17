@@ -1,0 +1,18 @@
+.drop-zone {
+  background-color: inherit;
+  transition: background-color 0.2s ease-in-out;
+  @apply border-neutral-400
+  
+}
+
+.file-over {
+  border-color: var(--primary-color);
+  background-color: var(--highlight-bg);
+  .upload-icon {
+    color: var(--primary-color);
+  }
+}
+
+.upload-icon {
+  transition: color 0.2s ease-in-out;
+}

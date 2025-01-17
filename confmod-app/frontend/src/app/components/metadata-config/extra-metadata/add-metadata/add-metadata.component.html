@@ -1,0 +1,6 @@
+<form class="flex flex-row gap-1 items-center" (submit)="handleSubmit($event)">
+    <input pInputText name="key" type="text" [formControl]="key" placeholder="Key">
+    <input pInputText name="value" type="text" [formControl]="value" placeholder="Value">
+    <p-button type="submit" icon="pi pi-plus" label="Add" size="small" [disabled]="key.value.length <= 0 || value.value.length <= 0" />
+</form>
+<small>Keys are transformed to snake_case</small>

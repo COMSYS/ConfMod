@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+td,th {
+  padding: 0.333rem;
+}
+
+tr.divider {
+  border-bottom-width: 1px;
+  border-bottom-style: double;
+
+  &.section-divider {
+    border-color: var(--surface-500);
+  }
+
+  &.observation-divider {
+    border-color: var(--surface-400);
+  }
+
+  &.feature-divider {
+    border-color: var(--surface-300);
+  }
+}
+
+td.icon-cell {
+  text-align: center;
+}
+

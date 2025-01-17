@@ -1,0 +1,14 @@
+app-root {
+    .menu-active {
+        background-color: var(--highlight-bg);
+    }
+    
+    .p-menuitem-separator {
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: lightgray;
+        padding-left: 0.5rem;
+        margin-right: 0.5rem;
+        height: 24px;
+    }
+}

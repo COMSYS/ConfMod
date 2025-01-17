@@ -1,0 +1,29 @@
+<form [formGroup]="form" class="flex flex-col gap-4" (submit)="handleSubmit()">
+    <div class="flex flex-col gap-1">
+        <label for="add-feature-label">Label</label>
+        <input id="add-feature-label" type="text" pInputText formControlName="label">
+        <small class="text-red-500" *ngxControlError="form.controls.label; track: 'required'">A label is required</small>
+        <small class="text-red-500" *ngxControlError="form.controls.label; track: 'labelExists'">Metadata with this label does already exist</small>
+    </div>
+    <div class="flex flex-col gap-2">
+        <div>Type</div>
+        <div class="flex flex-row gap-3">
+            <p-radioButton label="Descriptive Metadata" value="descriptive" formControlName="type" />
+            <p-radioButton label="Value Metadata" value="value" formControlName="type" />
+        </div>
+    </div>
+    <div class="flex flex-col gap-1">
+        <label for="add-feature-description">Description</label>
+        <textarea id="add-feature-description" pInputTextarea formControlName="description" placeholder="Optional description of this metadata point." ></textarea>
+    </div>
+    <div class="flex flex-col gap-1">
+        <label for="add-feature-description">Value</label>
+        <input id="add-feature-label" type="text" pInputText formControlName="value">
+        <small class="text-red-500" *ngxControlError="form.controls.value; track: 'required'">A value is required</small>
+    </div>
+
+    <div class="flex flex-row gap-4">
+        <p-button type="submit" label="Confirm" [disabled]="form.invalid" />
+        <p-button type="button" label="Cancel" severity="secondary" (onClick)="handleCancel()" />
+    </div>
+</form>

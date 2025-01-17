@@ -1,0 +1,136 @@
+<app-collapsible>
+    <ng-template appTemplate="header">
+        <div>
+            <p-checkbox binary class="mr-4" [formControl]="includePayloadCtrl" pTooltip="Include Feature in Output-Payload"/>
+            <span class="text-lg font-mono mr-2">{{ feat.label }}</span>
+            @if (feat.data_type; as dataType) {
+                <p-tag class="ml-1" severity="secondary">
+                    <span class="font-mono">{{ dataType || "Unknown data type" }}</span>
+                </p-tag>
+            }
+        </div>
+    </ng-template>
+    <ng-container>
+        <div>
+            <div class="mb-2 font-semibold">Information</div>
+            <table class="ml-2">
+                <tbody>
+                    <tr>
+                        <th class="mr-2">
+                            <span>Label</span>
+                        </th>
+                        <td>{{ feat.label }}</td>
+                    </tr>
+                    <tr>
+                        <th class="mr-2">Description</th>
+                        <td [ngClass]="{ 'text-neutral-300': !feat.description }">{{ feat.description || '-'  }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <hr class="border-t-gray-200 my-3">
+
+        <div>
+            <div class="mb-2">
+                <div role="heading" class="flex flex-row items-center">
+                    <span class="font-semibold">Feature Metadata&nbsp;</span>
+                    <p-button icon="pi pi-plus" text pTooltip="Add Feature Metadata" (onClick)="openAddMetadataDialog()"/>
+                </div>
+                <p class="text-sm">
+                    Select which meta-information about this feature should be included in the output.
+                </p>
+            </div>
+            <div class="flex flex-col gap-1 ml-2">
+                <table class="ml-2">
+                    <tbody>
+                        @if (feat.data_type; as dataType) {
+                            <tr>
+                                <td><p-checkbox binary [formControl]="includeDataTypeCtrl"/></td>
+                                <th class="mr-2">
+                                    <span>Data type</span>
+                                </th>
+                                <td>{{ dataType }}</td>
+                            </tr>
+                        }
+                        @for (meta of feat.metadata; track meta.label) {
+                            <tr (contextmenu)="onFeatureMetaCtxMenu(meta.label, $event)">
+                                <td [rowSpan]="meta.description ? 2 : 1">
+                                    <p-checkbox [formControl]="metadataFormControl" [value]="meta.label" />
+                                </td>
+                                <th class="mr-2">
+                                    <span>{{ meta.label }}</span>
+                                </th >
+                                <td>{{ meta.value }}</td>
+                            </tr>
+                            @if (meta.description; as descr) {
+                                <tr (contextmenu)="onFeatureMetaCtxMenu(meta.label, $event)">
+                                    <td colspan="2" class="text-sm">{{descr}}</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <!--
+                <p-checkbox binary [(ngModel)]="cva.value.metadata.dataType" label="Data type"></p-checkbox>
+                @if (isNumbericFeature(feat)) {
+                    <p-checkbox binary label="Unit"></p-checkbox>
+                }
+                @if (feat.metadata?.value_range) {
+                    <p-checkbox binary [(ngModel)]="cva.value.metadata.valueRange" label="Value range"></p-checkbox>
+                }
+                @if (isNumbericFeature(feat)) {
+                    <p-checkbox binary label="Mean"></p-checkbox>
+                    <p-checkbox binary label="Standard deviation"></p-checkbox>
+                }
+                -->
+            </div>
+        </div>
+
+        <hr class="border-t-gray-200 my-3">
+
+        <section class="mt-4">
+            <div role="heading">
+                <span class="font-semibold">Post-Processing Pipeline</span>
+            </div>
+            <p class="text-sm">
+                Apply operations to the datapoints of this feature.
+            </p>
+            @if (featureConfig.transform; as transformFuncs) {
+                <ol>
+                    @for (function of transformFuncs; track function.name) {
+                        <li>
+                            <span>{{function.name}}</span>
+                            @if (function.args | keyvalue; as args) {
+                                <div class="ml-2">
+                                    @for (arg of args; track arg.key) {
+                                        <pre>{{arg.key}}: {{arg.value}}</pre>
+                                    }
+                                </div>
+                            }
+                        </li>
+                    }
+                </ol>
+            }
+            <div class="flex flex-row gap-2 items-center">
+                <p-dropdown
+                    [options]="pipelineFunctions"
+                    optionLabel="label"
+                    placeholder="Select a Function"
+                    [filter]="pipelineFunctions.length > 5"
+                    filterBy="name"
+                    styleClass="w-80"
+                    [formControl]="selectedFnCtrl"
+                />
+                <p-button icon="pi pi-plus" label="Add" size="small" (click)="openFunctionDialog()">
+                </p-button>
+            </div>
+        </section>
+        <hr class="my-4" />
+    </ng-container>
+</app-collapsible>
+
+<p-contextMenu #featureMetaCtx [model]="featureMetaCtxItems"/>
+<p-confirmDialog />

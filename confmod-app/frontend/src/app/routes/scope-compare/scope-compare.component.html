@@ -1,0 +1,118 @@
+<div class="flex flex-col lg:flex-row lg:items-center">
+    <h1 class="font-semibold text-4xl"><span>{{ configName }}</span></h1>            <div class="flex flex-row gap-2 lg:ml-8">
+                <p-button icon="pi pi-download" outlined label="Export" />
+                <a class="p-button p-button-outlined no-underline font-bold" routerLink="/editor/{{slug}}">
+                    <i class="pi pi-pencil mr-2"></i>
+                    Edit
+                </a>
+            </div>
+</div>
+
+<table class="table-auto border-collapse border border-solid border-black">
+    <thead>
+        <tr class="border border-solid border-black">
+            <th></th>
+            <th></th>
+            <th></th>
+            @for (scope of config.scopes | appEntries; track scope.key) {
+                <th>
+                    {{ scope.key }}
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Top level metadata -->
+        @for (metadata of model.head.metadata | appEntries; track metadata.key; let isFirst = $first; let isLast = $last) {
+            <tr [class.divider]="isLast">
+                <th *ngIf="isFirst" [rowSpan]="(model.head.metadata | appEntries).length" colspan="2">
+                    Metadata
+                </th>
+                <td class="font-mono">
+                    {{ metadata.key }}
+                </td>
+                @for (scope of config.scopes | appEntries; track scope.key) {
+                    <td class="icon-cell">
+                        <ng-container *ngTemplateOutlet="icon; context: { $implicit:  scope.value.metadata?.includes(metadata.key) ?? false}" />
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="3" class="text-center text-lg">Observations</th>
+        </tr>
+        <tr class="divider section-divider">
+            <th>Observation</th>
+            <th>Feature</th>
+            <th></th>
+            @for (scope of config.scopes | appEntries; track scope.key) {
+                <th>
+                    {{ scope.key }}
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (observation of model.head.observations | appEntries; track observation.key; let isLastObservation = $last) {
+            @for (feature of observation.value.features; track feature.label; let isFirstFeature = $first; let isLastFeature = $last) {
+                <tr>
+                    <th
+                        *ngIf="isFirstFeature"
+                        class="font-mono font-bold"
+                        [rowSpan]="getObservationRowSpan(observation.key)"
+                    >
+                        {{observation.key}}
+                    </th>
+                    <th
+                        class="font-mono font-semibold"
+                        [rowSpan]="getFeatureRowSpan(observation.key, feature.label)"
+                    >
+                        {{feature.label}}
+                    </th>
+                    <td>Include in Payload</td>
+                    @for (scope of config.scopes | appEntries; track scope.key) {
+                        <td class="icon-cell">
+                            <ng-container *ngTemplateOutlet="icon; context: { $implicit: isFeatureInPlayload(scope.key, observation.key, feature.label)}" />
+                        </td>
+                    }
+                </tr>
+                <tr [ngClass]="{'divider feature-divider': featureHasNoMetadata(feature)}">
+                    <td>Include Data-Type</td>
+                    @for (scope of config.scopes | appEntries; track scope.key) {
+                        <td class="icon-cell">
+                            <ng-container *ngTemplateOutlet="icon; context: { $implicit: scope.value.observations[observation.key].features[feature.label].includeDataType ?? false}" />
+                        </td>
+                    }
+                </tr>
+                @for (metadata of (feature.metadata ?? []); track metadata.label; let lastMetaItem = $last) {
+                    <tr [ngClass]="{
+                            'divider': lastMetaItem || isLastFeature,
+                            'divider feature-divider': lastMetaItem && !isLastFeature,
+                            'observation-divider': isLastFeature && !isLastObservation,
+                        }"
+                    >
+                        <td>{{metadata.label}}</td>
+                        @for (scope of config.scopes | appEntries; track scope.key) {
+                            <td class="icon-cell">
+                                <ng-container *ngTemplateOutlet="icon; context: { $implicit: getFeatureMetadata(scope.key, observation.key, feature.label).includes(metadata.label)}" />
+                            </td>
+                        }
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<!--
+<div>
+    <p>{{ model | json}}</p>
+    <p>{{ config | json}}</p>
+</div>
+-->
+
+<ng-template #icon let-ok>
+    <i class="pi" [ngClass]="{'pi-check-circle': ok, 'text-green-500': ok, 'pi-times-circle': !ok, 'text-red-500': !ok}"></i>
+</ng-template>

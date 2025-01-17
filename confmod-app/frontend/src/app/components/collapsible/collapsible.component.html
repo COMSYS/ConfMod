@@ -1,0 +1,11 @@
+<div class="flex fex-row items-center">
+    <app-collapse-button (click)="toggle()" />
+    @if (headerTemplate) {
+        <ng-container *ngTemplateOutlet="headerTemplate.template"></ng-container>
+    } @else {
+        <span class="text-lg">{{ header }}</span>
+    }
+</div>
+<div class="content ml-7 pl-7 border-0 border-l border-solid border-gray-200 mt-2" [class.hidden]="!expanded">
+    <ng-content />
+</div>

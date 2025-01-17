@@ -1,0 +1,14 @@
+apiUrl: "http://localhost:8080/api"
+availableCategories:
+- Factory
+- Human Resources
+- Machine
+- Material
+- Metadata
+- Optimization
+- Process
+- Products
+- Requirements
+- Simulation
+- Supply Chain
+- Survey

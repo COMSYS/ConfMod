@@ -1,0 +1,24 @@
+<h3>Custom metadata</h3>
+@if (extraMetadata$ | async; as extraMetadata) {
+    <p class="text-sm text-muted">
+        <span class="font-bold">Hint:</span>&nbsp;Custom defined entries can be removed by right-clicking.
+    </p>
+    <ul class="flex flex-col gap-1">
+    @for (metadata of extraMetadata; track metadata.key) {
+        <div class="w-fit" (contextmenu)="onContextMenu($event, metadata.key)">
+            <label class="flex flex-row gap-1">
+                <p-checkbox [(ngModel)]="cva.value" [value]="metadata" />
+                <div class="cursor-context-menu">
+                    <span class="font-bold">{{metadata.key}}</span>: {{metadata.value}}
+                </div>
+            </label>
+        </div>
+    }
+    </ul>
+} @else {
+    <p>Top-level meta information which are not extracted from the model can be defined and selected here.</p>
+}
+
+<p-contextMenu #cm [model]="ctxMenuItems" (onHide)="onHide()"/>
+<p-confirmDialog />
+<app-add-metadata (addMetadata)="handleAddMetadata($event)" />

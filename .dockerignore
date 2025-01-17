@@ -1,0 +1,25 @@
+# Ignore git stuff
+.git
+**/.gitignore
+
+# Exclude directories
+eval_data/
+nodebooks/
+
+# Ignore all yaml files except the app config
+*.yaml
+!app-config*.yaml
+
+
+**/.vscode
+**/*.db
+**/*.pyc
+**/__pycache__/
+**/.editorconfig
+confmod-app/prism-frontend/dist
+confmod-app/prism-frontend/node_modules
+confmod-app/prism-frontend/.angular
+
+# Never ignore these
+!.dockerignore
+!*Dockerfile

@@ -1,0 +1,21 @@
+@if (funcDef.description; as description) {
+    <p appLineBreak [text]="description"></p>
+}
+
+@if (funcDef.params; as params) {
+    @if(params.length) {
+        <section>
+            <h3 class="text-lg">Function Parameters:</h3>
+            <div class="flex flex-col gap-3">
+                @for (param of params; track param.name; let i = $index) {
+                    <app-transformation-function-param [param]="param" (argumentChange)="handleArgumentChange(param.name, $event)"  />
+                }
+            </div>
+        </section>
+    }
+}
+
+<div class="mt-4 flex flex-auto items-center justify-around">
+    <p-button label="Confirm" (onClick)="confirm()" />
+    <p-button outlined label="Cancel" severity="danger" (onClick)="confirm()" />
+</div>

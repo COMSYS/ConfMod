@@ -1,0 +1,135 @@
+<form [formGroup]="form" class="flex flex-col gap-4" (submit)="handleSubmit($event)">
+<div class="flex flex-col gap-1">
+        <label for="observation-label">Label</label>
+        <input pInputText id="observation-label" formControlName="label" placeholder="LABEL_ME" />
+        <small>Choose a label that identifies this observation</small>
+    </div>
+    <div class="flex flex-col gap-1">
+        <div class="mb-2">Observation Type</div>
+        <div class="flex flex-row items-center gap-2">
+            <p-radioButton formControlName="type" label="Event" [value]="observationType('E')" />
+            <p-radioButton formControlName="type" label="Measurement" [value]="observationType('M')" />
+        </div>
+    </div>
+    <div class="flex flex-col gap-1">
+        <div class="mb-2">Description</div>
+        <textarea pInputTextarea rows="3" formControlName="description"></textarea>
+    </div>
+    <hr class="border-0 border-b border-solid border-neutral-400 w-full" />
+    <div>
+        <div class="flex flex-row gap-2 items-center">
+            <span class="text-lg font-semibold">Features</span>
+            <p-button type="button" text icon="pi pi-plus" (onClick)="addFeatureDefinition()" pTooltip="Add new feature definiton" />
+        </div>
+        @if (featureForm.controls.length) {
+            @for (feature of featureForm.controls; track feature.controls.label; let i = $index; let isFirst = $first; let isLast = $last) {
+                <div class="flex flex-row items-center">
+                    <span>Feature: {{ feature.controls.label.value || 'Unnamed' }}</span>
+                    <div class="ml-4 flex flex-row items-center gap-2">
+                        <p-button
+                            type="button"
+                            text
+                            icon="pi pi-angle-up"
+                            severity="secondary"
+                            [disabled]="isFirst"
+                            (onClick)="moveFeatureUp(i)"
+                            pTooltip="Move up"
+                            [tooltipDisabled]="isFirst"
+                        />
+                        <p-button
+                            type="button"
+                            text
+                            icon="pi pi-angle-down"
+                            severity="secondary"
+                            [disabled]="isLast"
+                            (onClick)="moveFeatureDown(i)"
+                            pTooltip="Move down"
+                            [tooltipDisabled]="isLast"
+                        />
+                        <p-button
+                            type="button"
+                            text
+                            icon="pi pi-trash"
+                            severity="danger"
+                            (onClick)="removeFeature(i)"
+                            [pTooltip]="'Remove Feature ' + feature.controls.label.value"
+                        />
+                    </div>
+                </div>
+                <div [formGroup]="feature" class="flex flex-col gap-3 mx-2">
+                    <div class="flex flex-col gap-1">
+                        <label [htmlFor]="'feature-label-' + i">Feature Label</label>
+                        <input formControlName="label" type="text" [id]="'feature-label-' + i" pInputText/>
+                        <small class="block mb-4 text-red-500" *ngxControlError="form.controls.features; track: 'arrayUnique'">
+                            Duplicate feature labels.
+                        </small>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label [htmlFor]="'feature-label-' + i">Feature Description</label>
+                        <textarea formControlName="description" [id]="'feature-label-' + i" placeholder="Human readable description (Optional)" pInputTextarea></textarea>
+                        <small class="block mb-4 text-red-500" *ngxControlError="form.controls.features; track: 'arrayUnique'">
+                            Duplicate feature labels.
+                        </small>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label [htmlFor]="'feature-dt-' + i">Feature Data Type</label>
+                        <p-dropdown formControlName="dataType" placeholder="Choose a data type" [options]="FeatureDataTypes()" [inputId]="'feature-dt-' + i" />
+                    </div>
+                    @switch((feature.controls.dataType.valueChanges | async)) {
+                      @case ("float") {
+                        <ng-container *ngTemplateOutlet="datatypeMeta; context: { label: 'Unit', description: 'Physical Unit if applicable', ctrlName: 'unit' }" />
+                      }
+                      @case ("int") {
+                        <ng-container *ngTemplateOutlet="datatypeMeta; context: { label: 'Unit', description: 'Physical Unit if applicable', ctrlName: 'unit' }" />
+                      }
+                      @case ("file") {
+                        <ng-container *ngTemplateOutlet="datatypeMeta; context: { label: 'Extension', description: 'File Extension', ctrlName: 'fileExt' }" />
+                      }
+                    }
+                    <ng-template #datatypeMeta let-label="label" let-placeholder="placeholder" let-ctrlName="ctrlName" let-descr="description">
+                        <div class="flex flex-col gap-1">
+                            <label [htmlFor]="'feature' + ctrlName +'-' + i">{{label}}</label>
+                            <input pInputText class="max-w-32" [id]="'feature-' + ctrlName +'-' + i" [formControlName]="ctrlName" [placeholder]="placeholder ?? ''">
+                            <!-- <p-dropdown
+                                formControlName="unit"
+                                [inputId]="'feature-unit-' + i"
+                                placeholder="Choose a unit"
+                                [options]="unitByFeatureDataType()"
+                                editable
+                            /> -->
+                            @if (descr) {
+                              <small class="block mb-4">
+                                {{ descr }}
+                              </small>
+                            }
+                        </div>
+                    </ng-template>
+                </div>
+                @if (!isLast) {
+                    <p-divider />
+                }
+            }
+            <div class="mt-3 flex flex-row items-center justify-center">
+                <p-button
+                    type="button"
+                    label="Add feature"
+                    icon="pi pi-plus"
+                    size="small"
+                    outlined
+                    (onClick)="addFeatureDefinition()"
+                />
+            </div>
+        } @else {
+            <div>
+                <p>
+                    No features defined yet.
+                </p>
+            </div>
+        }
+    </div>
+
+    <div class="flex flex-row justify-around items-center">
+        <p-button type="submit" label="Confirm" [disabled]="form.invalid" />
+        <p-button type="button" label="Cancel" severity="danger" outlined (onClick)="cancel()" />
+    </div>
+</form>

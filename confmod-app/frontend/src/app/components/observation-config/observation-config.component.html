@@ -1,0 +1,11 @@
+@for (obs of spec | keyvalue; track obs.key) {
+    <app-single-observation-config
+        [observationLabel]="obs.key"
+        [observationSpec]="obs.value"
+        [observationConfig]="observationConfig[obs.key]"
+        (observationConfigChange)="handleObservationConfigChange(obs.key, $event)"
+        (addMetadata)="handleAddMetadata(obs.key, $event)"
+        (deleteMetadata)="handleDeleteMetadata(obs.key, $event)"
+        (deleteObservation)="handleDeleteObservation(obs.key)"
+    />
+}

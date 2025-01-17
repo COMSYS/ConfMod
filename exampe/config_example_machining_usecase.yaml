@@ -1,0 +1,284 @@
+scopes:
+  Direct Customers:
+    includePayload: false
+    metadata:
+    - material
+    - location
+    - company
+    observations:
+      CAD:
+        features:
+          3D-Model:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Extension
+          surface quality:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          tolerances:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+        includeMetadata: false
+        includePayload: true
+      CAM:
+        features:
+          machine_id:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          selected tool _id:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+        includeMetadata: false
+        includePayload: true
+      EXTERNAL_MACHINE_SENSORS:
+        features:
+          timestamp:
+            includeDataType: false
+            includePayload: false
+            metadata: []
+        includeMetadata: false
+        includePayload: false
+      QUALITY:
+        features:
+          point distribution:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          report:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+        includeMetadata: false
+        includePayload: true
+  External Companies:
+    includePayload: false
+    metadata:
+    - material
+    observations:
+      REFINED_MACHINE_DATA:
+        features:
+          Q:
+            includeDataType: false
+            includePayload: true
+            metadata: []
+            transform:
+            - args:
+                Description: Aggregation to Process Parameter Map
+              name: aggregate
+          ae:
+            includeDataType: false
+            includePayload: true
+            metadata: []
+            transform:
+            - args:
+                Description: Aggregation to Process Parameter Map
+              name: aggregate
+          ap:
+            includeDataType: false
+            includePayload: true
+            metadata: []
+            transform:
+            - args:
+                Description: Aggregation to Process Parameter Map
+              name: aggregate
+          fz:
+            includeDataType: false
+            includePayload: true
+            metadata: []
+            transform:
+            - args:
+                Description: Aggregation to Process Parameter Map
+              name: aggregate
+        includeMetadata: false
+        includePayload: true
+  Internal:
+    includePayload: false
+    metadata:
+    - company
+    - location
+    - material
+    - order_number
+    - sampling_frequency
+    observations:
+      CAD:
+        features:
+          3D-Model:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Extension
+          surface quality:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          tolerances:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+        includeMetadata: false
+        includePayload: true
+      CAM:
+        features:
+          NC program:
+            includeDataType: false
+            includePayload: true
+            metadata: []
+          calmping device:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          machine_id:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          selected tool _id:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+        includeMetadata: false
+        includePayload: true
+      EXTERNAL_MACHINE_SENSORS:
+        features:
+          force measurement:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          timestamp:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+            transform:
+            - args: {}
+              name: timeseries_to_relative
+        includeMetadata: false
+        includePayload: true
+      MACHINEINTERNAL_DATA:
+        features:
+          axis_x:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          axis_y:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          motor_current:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          rotational_speed:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+          timestamp:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+            transform:
+            - args: {}
+              name: timeseries_to_relative
+        includeMetadata: false
+        includePayload: true
+      QUALITY:
+        features: {}
+        includeMetadata: false
+        includePayload: true
+      REFINED_MACHINE_DATA:
+        features:
+          Q:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          TCP_x:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          TCP_y:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          ae:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          ap:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          fz:
+            includeDataType: true
+            includePayload: true
+            metadata:
+            - Unit
+          timestamp:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+            transform:
+            - args: {}
+              name: timeseries_to_relative
+        includeMetadata: false
+        includePayload: true
+  Supplier:
+    includePayload: false
+    metadata:
+    - company
+    - location
+    observations:
+      CAD:
+        features:
+          3D-Model:
+            includeDataType: false
+            includePayload: false
+            metadata: []
+          surface quality:
+            includeDataType: false
+            includePayload: false
+            metadata: []
+          tolerances:
+            includeDataType: false
+            includePayload: false
+            metadata: []
+        includeMetadata: false
+        includePayload: false
+      CAM:
+        features:
+          machine_id:
+            includeDataType: false
+            includePayload: false
+            metadata: []
+          selected tool _id:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+        includeMetadata: false
+        includePayload: true
+  Tier-N Customers:
+    includePayload: false
+    metadata:
+    - material
+    observations:
+      QUALITY:
+        features:
+          report:
+            includeDataType: true
+            includePayload: true
+            metadata: []
+        includeMetadata: false
+        includePayload: true

@@ -1,0 +1,19 @@
+@if ((metadata | keyvalue).length) {
+    <ul class="flex flex-col gap-1">
+        @for (item of metadata | keyvalue; track item.key) {
+            <div class="w-fit" (contextmenu)="openContextMenu(item.key, item.value, $event)">
+                <label class="flex flex-row gap-1">
+                    <p-checkbox [formControl]="metadataFormControl" [value]="item.key" />
+                    <div class="cursor-pointer"><span class="font-bold">{{item.key}}</span>: {{item.value}}</div>
+                </label>
+            </div>
+        }
+    </ul>
+} @else {
+    <p>
+        The imported model did not contain any metadata.
+    </p>
+}
+
+<p-contextMenu #ctx [model]="ctxMenuItems" />
+<p-confirmDialog />

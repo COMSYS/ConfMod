@@ -1,0 +1,11 @@
+# binary files
+*.zip
+
+# python
+__pycache__
+
+# various
+.env
+
+# SQLITE DB
+*.db

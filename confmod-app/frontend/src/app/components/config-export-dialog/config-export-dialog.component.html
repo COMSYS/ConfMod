@@ -1,0 +1,25 @@
+<form [formGroup]="form" (submit)="handleSubmit()">
+    <div class="flex flex-col mb-4">
+        <label class="text-lg font-bold mb-2" for="export-form-filename">Filename</label>
+        <input id="export-form-filename" pInputText type="text" placeholder="Enter a filename" formControlName="filename">
+        <small class="text-red-500" *ngxControlError="form.controls.filename; track: 'required'">A filename is required.</small>
+    </div>
+
+    <div>
+        <h3 class="mb-3 text-lg">Scopes</h3>
+        <div class="mb-2">
+            <p class="my-0">Select the scopes to include in the output config.</p>
+            <small class="text-red-500" *ngxControlError="form.controls.exportedScopes; track: 'required'">Please select at least one scope.</small>
+        </div>
+        <div class="flex flex-col gap-1 pl-3">
+            @for (scope of dialogData.scopes; track scope) {
+                <p-checkbox [label]="scope" [value]="scope" formControlName="exportedScopes" />
+            }
+    </div>
+</div>
+
+    <div class="flex flex-row mt-8 gap-4 justify-around">
+        <p-button type="button" label="Cancel" severity="secondary" (onClick)="cancel()" />
+        <p-button type="submit" icon="pi pi-download" label="Download" [disabled]="form.invalid" />
+    </div>
+</form>

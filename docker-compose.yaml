@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    restart: on-failure
+    healthcheck:
+      test: curl -f http://localhost:8080/health/ready
+      interval: 1m30s
+      timeout: 5s
+      retries: 1
+      start_period: 1m
+      start_interval: 3s
+
+  nginx:
+    build:
+      context: confmod-app/frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./confmod-app/frontend/nginx/app-confmod.conf:/etc/nginx/conf.d/app-confmod.conf:ro
+    ports:
+      - "8080:8080"
+    links:
+      - backend:api
+    depends_on:
+      backend:
+        condition: service_healthy

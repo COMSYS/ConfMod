@@ -1,0 +1,54 @@
+<div class="flex flex-col items-center">
+    @if (vm$ | async; as vm) {
+        <div class="flex flex-column lg:flex-row items-center self-start">
+            <h1 class="font-semibold text-4xl"><span class="font-semibold">{{vm.configName}}</span></h1>
+            <div class="flex flex-row gap-2 lg:ml-8">
+                <p-button icon="pi pi-save" label="Save" [disabled]="vm.changesSaved" [loading]="vm.isSaving" (onClick)="saveConfig()" />
+                <!-- <p-button icon="pi pi-plus" outlined label="Add Scope" /> -->
+                <p-splitButton icon="pi pi-download" outlined label="Export Config" [disabled]="vm.isSaving" (onClick)="handleConfigExport()" [model]="exportSplitButtonMenu" />
+                <a class="p-button p-button-outlined no-underline font-bold" routerLink="/scope-compare/{{slug}}">
+                    <i class="pi pi-chart-bar mr-2"></i>
+                    Compare Scopes
+                </a>
+            </div>
+        </div>
+        <section class="flex flex-col self-start">
+            <div class="flex flex-row items-center mt-3">
+                <span class="text-lg mr-2">Categories:</span>
+                <p-multiSelect
+                    placeholder="No category selected"
+                    [options]="modelCategoriesSelectOptions"
+                    [formControl]="selectedCategories"
+                    [showHeader]="false"
+                    [filter]="false"
+                />
+            </div>
+            <p class="text-sm">
+                Select a category that fits your use-case.
+            </p>
+        </section>
+        <div class="w-full">
+            <p-tabMenu [model]="vm.tabs" [activeItem]="vm.activeTab" (activeItemChange)="handleActiveItemChange($event)"  />
+            @switch (vm.activeTabInfo.type) {
+                @case ("scope") {
+                    <app-scope-config-editor
+                        [scopeConfig]="vm.selectedScope"
+                        [modelHeader]="vm.modelHeader"
+                        (addFeatureMetadata)="handleAddFeatureMetadata($event)"
+                        (deleteFeatureMetadata)="handleDeleteFeatureMetadata($event)"
+                        (addModelMetadata)="handleAddModelMetadata($event)"
+                        (deleteModelMetadata)="handleDeleteModelMetadata($event)"
+                        (addObservation)="handleAddObservation($event)"
+                        (deleteObservation)="handleDeleteObservation($event)"
+                        (scopeConfigChange)="handleScopeConfigChange(vm.selectedScopeName, $event)"
+                    />
+                }
+            }
+        </div>
+    }
+</div>
+
+<p-contextMenu #cm [model]="tabPanelCmItems" />
+<p-confirmDialog />
+
+<a class="hidden" #configDownload></a>

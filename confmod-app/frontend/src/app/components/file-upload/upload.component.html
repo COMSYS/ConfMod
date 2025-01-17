@@ -1,0 +1,53 @@
+<div
+    class="drop-zone size-full boder-8 border-dashed rounded-lg flex flex-col justify-center items-center gap-2"
+    [ngClass]="{'file-over': hasFileOver && !selectedFile}"
+    ng2FileDrop
+    (fileOver)="handleFileOver($event)"
+    (onFileDrop)="handleFileDrop($event)"
+    [uploader]="uploader"
+>
+    @if (selectedFile) {
+        <table class="border-spacing-x-2 mb-4">
+            <thead>
+                <th class="mr-4">Filename</th>
+                <th>Size</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <td class="mr-4">{{ selectedFile.name }}</td>
+                <td>{{ selectedFile.size/1024/1024 | number:'.2' }} MB</td>
+                <td>
+                    @if (uploadSucceeded) {
+                        <i class="pi pi-check text-green-600"></i>
+                    } @else if (uploadError) {
+                        <i class="pi pi-times text-red-600"></i>
+                    } @else if (uploadInProgress) {
+                        <p-progressSpinner styleClass="size-4" />
+                    }
+                </td>
+            </tbody>
+        </table>
+        @if (uploadStarted) {
+            <p-progressBar class="w-full px-8" [value]="uploader.progress" showValue="false" [color]="uploadProgressBarColor" />
+            @if (uploadInProgress) {
+                <p-button label="Cancel" icon="pi pi-times" severity="danger" size="small" />
+            } @else {
+                <ng-container *ngTemplateOutlet="removeFileBtn" />
+            }
+        } @else {
+            <div class="flex flex-row gap-2 justify-around">
+                <p-button label="Submit" size="small" (onClick)="upload()" />
+                <ng-container *ngTemplateOutlet="removeFileBtn" />
+            </div>
+        }
+    } @else {
+        <i class="upload-icon pi pi-upload text-neutral-700" style="font-size: 5rem;"></i>
+        <p-button label="Choose file" size="small" (onClick)="openFileExporer()"></p-button>
+    }
+</div>
+
+<input #fileSelect type="file" ng2FileSelect class="hidden" (onFileSelected)="handleFileSelect($event)" multiple>
+
+<ng-template #removeFileBtn>
+    <p-button label="Remove file" icon="pi pi-trash" severity="danger" size="small" (onClick)="removeFile()" />
+</ng-template>

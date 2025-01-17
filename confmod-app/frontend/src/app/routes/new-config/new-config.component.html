@@ -1,0 +1,173 @@
+@if (vm$ | async; as vm) {
+<main class="container mt-10 mx-auto">
+    <div class="w-lg">
+        <p-steps [model]="vm.steps" readonly [activeIndex]="vm.activeTab"/>
+        <hr class="w-full mx-2 my-6 border-0 border-b border-neutral-200" />
+        <div class="container max-w-3xl mx-auto">
+            <div class="mx-auto" [class.hidden]="vm.activeTab !== 0" [attr.aria-hidden]="vm.activeTab !== 2">
+                <p>You can upload a model to either generate a config or to get enhanced information when importing an existing config in the next step.</p>
+                <p-messages key="model" [enableService]="false">
+                    <ng-template pTemplate>
+                        @if (modelError$ | async; as modelError) {
+                            @if (vm.config.state === "error") {
+                                <ng-container *ngTemplateOutlet="msgError; context: { $implicit: modelError }" />
+                            }
+                        }
+                    </ng-template>
+                </p-messages>
+                <div class="max-w-3xl w-full h-64 mx-auto">
+                    <app-file-upload [url]="baseUrl + '/model/verify'" autoUpload (onFileUploaded)="handleModelVerification($event)" (onUploadError)="handleModelUploadError($event)" />
+                </div>
+            </div>
+            <div class="mx-auto" [class.hidden]="vm.activeTab !== 1" aria-label="Import Config" [attr.aria-hidden]="vm.activeTab !== 1">
+                <p>Upload an existing config file that or skip that part. If a config was provided in the previous step, the config will be auto generated.</p>
+                <p-messages key="config" [enableService]="false">
+                    <ng-template pTemplate>
+                        @if (configError$ | async; as configError) {
+                            @if (vm.config.state === "error") {
+                                <ng-container *ngTemplateOutlet="msgError; context: { $implicit: configError }" />
+                            }
+                        }
+                    </ng-template>
+                </p-messages>
+                <div class="max-w-3xl w-full h-64 mx-auto">
+                    <app-file-upload [url]="baseUrl + '/config/verify'" autoUpload (onFileUploaded)="handleConfigVerification($event)"/>
+                </div>
+            </div>
+            <div class="mx-auto pt-6"  [class.hidden]="vm.activeTab !== 2" aria-label="summary" [attr.aria-hidden]="vm.activeTab !== 2">
+                <div class="flex flex-row gap-4 justify-around">
+                    <label class="flex flex-col gap-2">
+                        <span>Config Name<span class="text-red-600">*</span>&nbsp;<span class="text-gray-500 text-xs">required</span></span>
+                        <input type="text" pInputText [formControl]="configName" required placeholder="Choose a name" />
+                        <small>Choose a name under which the config will be displayed in the toolbar.</small>
+                    </label>
+                    <table class="table table-striped table-auto mx-auto border-collapse">
+                        <thead class="border-0 border-b border-solid border-neutral-300">
+                            <tr>
+                                <th></th>
+                                <th>Filename</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="py-4">
+                                <th>Model</th>
+                                <td class="text-center">
+                                    @if (vm.model.state === "validated") {
+                                        <span>{{vm.model.fileName}}</span>
+                                    } @else {
+                                        <span>-</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (vm.model.state !== "validated") {
+                                        <span>Not provided&nbsp;</span>
+                                    }
+                                    <i class="pi" [ngClass]="{ 'pi-check text-green-500': vm.model.state === 'validated'}"></i>
+                                </td>
+                            </tr>
+                            <tr class="py-4">
+                                <th>Config</th>
+                                <td class="text-center">
+                                    @if (vm.config.state === "validated") {
+                                        <span>{{vm.config.fileName}}</span>
+                                    } @else {
+                                        <span>-</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (vm.config.state !== "validated") {
+                                        <span>Not provided&nbsp;</span>
+                                    }
+                                    <i class="pi" [ngClass]="{ 'pi-check text-green-500': vm.config.state === 'validated', 'pi-times text-red-500': vm.config.state === 'error'}"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-center mt-10">
+                    <button pButton label="CreateConfig" severity="success" [disabled]="configName.invalid || vm.submitting" (click)="createConfig()"></button>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-row items-center justify-between mt-3 mx-16">
+            <p-button label="Back" icon="pi pi-angle-left" [disabled]="vm.activeTab <= 0" (onClick)="stepBack()"/>
+            <p-button label="Next" icon="pi pi-angle-right" [disabled]="vm.activeTab >= vm.steps.length - 1" (onClick)="stepNext()" />
+        </div>
+    </div>
+    <p-toast key="toast" />
+</main>
+}
+
+<p-confirmDialog />
+
+<ng-template #observationTable let-model>
+    <table>
+        <thead>
+            <tr>
+                <th>Observation</th>
+                <th [colSpan]="getObservationTableColspan(model)">Features</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (observation of model.head.observations | keyvalue; track observation.key) {
+                <tr>
+                    <td>{{ observation.key }}</td>
+                    @for (feature of $any(observation.value).features; track feature.label) {
+                        <td>{{ feature.label }}</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</ng-template>
+
+<ng-template #metadataTable let-model>
+    <table class="table-auto">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (meta of model.head.metadata | keyvalue; track meta.key) {
+                <tr>
+                    <td class="font-semibold">{{ meta.key }}</td>
+                    <td>{{ meta.value }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</ng-template>
+
+<ng-template #msgError let-error>
+    <div class="flex flex-row items-center">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span class="font-bold">Error!</span>
+        @switch (error.statusCode) {
+            @case (400) {
+                @switch (error.error.error) {
+                    @case ('JSONDecordeError') {
+                        <span>Could not parse JSON file.</span>
+                    }
+                    @case ('YAMLDecodeError') {
+                        <span>Could not parse YAML file.</span>
+                    }
+                    @default {
+                        <span>Something went wrong.</span>
+                    }
+                }
+            }
+            @case (422) {
+                <span>Could not validate your file.</span>
+            }
+            @default {
+                <span>Something went wrong.</span>
+            }
+        }
+        <p-button outlined text label="More info" />
+    </div>
+    
+</ng-template>

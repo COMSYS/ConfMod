@@ -1,0 +1,112 @@
+<app-collapsible>
+    <ng-template appTemplate="header">
+        <div class="ml-2 flex fex-row justify-start items-center gap-2 w-full">
+            <!--<p-triStateCheckbox readonly class="mr-2" checkboxFalseIcon="pi pi-minus" (onChange)="handleObservationCheckboxChange($event, i)"></p-triStateCheckbox>
+            -->
+            <div class="flex flex-row items-center">
+                <p-checkbox binary class="mr-4" [formControl]="includeInPayload" pTooltip="Include Observation in output"/>
+                <span class="text-xl font-mono align-middle">{{ observationLabel }}</span>
+                <p-tag class="ml-1" severity="secondary" [value]="observationSpec.type" [pTooltip]="obsTypeTooltip">
+                </p-tag>
+            </div>
+            <div class="justify-self-end">
+                <p-button text outlined icon="pi pi-times" severity="danger" pTooltip="Delete Observation {{observationLabel}}" (onClick)="handleDeleteObservation(observationLabel)" />
+            </div>
+        </div>
+    </ng-template>
+    @defer (on viewport) {
+    <div class="flex flex-col gap-5">
+        <div>
+            <div class="mb-2 text-lg font-semibold">Information</div>
+            <table class="ml-2">
+                <tbody>
+                    <tr>
+                        <th>Label:</th>
+                        <td>{{ observationLabel }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td>{{ observationType(observationSpec.type) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description:</th>
+                        @if (observationSpec.description; as description) {
+                            <td>{{ description }}</td>
+                        } @else {
+                            <td> - </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="text-lg font-semibold">Features</div>
+            <app-feature-config [spec]="observationSpec.features"
+                [featureConfig]="observationConfig.features"
+                (featureConfigChange)="handleFeatureConfigChange($event)"
+                (addMetadata)="handleAddMetadata(observationLabel, $event)"
+                (deleteMetadata)="handleDeleteMetadata(observationLabel, $event)"
+            />
+        </div>
+    </div>
+} @placeholder (minimum 150ms) {
+    <div class="flex flex-col gap-5">
+        <div>
+            <div class="mb-2 text-lg-font-semibold">
+                <p-skeleton height="1.125rem"  width="10rem"/>
+            </div>
+            <table class="ml-2">
+                <tbody>
+                    <tr>
+                        <th><p-skeleton width="4rem" /></th>
+                        <td><p-skeleton width="7rem" /></td>
+                    </tr>
+                    <tr>
+                        <th><p-skeleton /></th>
+                        <td><p-skeleton /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="mb-2 text-lg font-semibold">
+                <p-skeleton height="1.125rem"  width="10rem"/>
+            </div>
+            <ul class="flex flex-col gap-2">
+                <li>
+                    <div class="flex flex-row gap-2 items-center">
+                        <p-skeleton height="22px" width="22px" />
+                        <p-skeleton width="15rem" />
+                    </div>
+                </li>
+                <li>
+                    <div class="flex flex-row gap-2 items-center">
+                        <p-skeleton height="22px" width="22px" />
+                        <p-skeleton width="15rem" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="flex flex-col gap-3">
+            <p-skeleton height="1.125rem" width="10rem" />
+            <div class="ml-8 flex flex-col gap-1">
+                <div class="flex flex-row gap-2 items-center">
+                    <p-skeleton height="1rem" width="10rem" />
+                    <p-skeleton height="1.5rem" width="5rem" />
+                </div>
+                <div class="flex flex-row gap-2 items-center">
+                    <p-skeleton height="1rem" width="10rem" />
+                    <p-skeleton height="1.5rem" width="5rem" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</app-collapsible>
+
+<ng-template #obsTypeTooltip>
+    Observation Type: <span class="italic">{{ observationSpec.type === "M" ? "Measurement" : observationSpec.type === "E" ? "Event"
+        : "Unknown" }}</span>
+</ng-template>
+
+<p-confirmDialog />
