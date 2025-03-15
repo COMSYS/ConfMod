@@ -1,9 +1,27 @@
 # ConfMod: A Simple Modeling of Confidentiality Requirements for Inter-Organizational Data Sharing
 
+This repository contains a prototypical realization of ConfMod, our modeling approach for capturing confidentiality requirements in inter-organizational data-sharing settings.
+
 ## About
 
-The present work is currently under submission.
-This repository contains preliminary information and will be fully populated at a later point in time.
+> Exploiting data and information is known to be essential for tapping into unrealized (business) potential. In the context of the Industrial Internet of Things (IIoT), concerns related to the sensitivity of data frequently hinder its sharing (across organizations). Despite this situation, universal approaches that account for and appropriately model the confidentiality needs of stakeholders are still missing. In this paper, we address this research gap by proposing ConfMod, a middleware that simplifies the fine-granular modeling of confidentiality requirements while striving for interoperability with other tools and standardization in the area. We evaluate ConfMod in a diverse set of twelve real-world use cases from industry and show its general feasibility. Hence, we are confident that the functionality and simplicity of ConfMod facilitate an important building block for the IIoT, which will fuel inter-organizational data sharing in the future.
+
+## Publication
+
+* Jan Pennekamp, Paul Weiler, Matthias Bodenbenner, Maximilian Sudmann, István Koren, Ike Kunze, Marcel Fey, Dominik Wolfschläger, Christian Brecher, Robert Schmitt, and Klaus Wehrle: *ConfMod: A Simple Modeling of Confidentiality Requirements for Inter-Organizational Data Sharing*. In 6th Workshop on Management for Industry 5.0 (MFI5.0 '25), IEEE, 2025.
+
+If you use any portion of our work, please cite our publication.
+
+```
+@inproceedings{pennekamp2025confmod,
+    author = {Pennekamp, Jan and Weiler, Paul and Bodenbenner, Matthias and Sudmann, Maximilian and Koren, Istv{\'a}n and Kunze, Ike and Fey, Marcel and Wolfschl{\"a}ger, Dominik and Brecher, Christian and Schmitt, Robert H. and Wehrle, Klaus},
+    title = {{ConfMod: A Simple Modeling of Confidentiality Requirements for Inter-Organizational Data Sharing}},
+	booktitle = {Proceedings of the 6th Workshop on Management for Industry 5.0 (MFI5.0 '25)},
+	year = {2025},
+    month = {May},
+    publisher = {IEEE}
+}
+```
 
 ## License
 
