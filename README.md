@@ -19,6 +19,7 @@ If you use any portion of our work, please cite our publication.
 	booktitle = {Proceedings of the 6th Workshop on Management for Industry 5.0 (MFI5.0 '25)},
 	year = {2025},
     month = {May},
+    doi = {10.1109/NOMS57970.2025.11073722},
     publisher = {IEEE}
 }
 ```
